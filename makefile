@@ -94,8 +94,9 @@ LIB_O=	lbaselib.o ldblib.o liolib.o lmathlib.o loslib.o ltablib.o lstrlib.o \
 LUA_T=	lua
 LUA_O=	lua.o
 
+LUA_DLL=lua.dll
 
-ALL_T= $(CORE_T) $(LUA_T)
+ALL_T= $(CORE_T) $(LUA_T) $(LUA_DLL)
 ALL_O= $(CORE_O) $(LUA_O) $(AUX_O) $(LIB_O)
 ALL_A= $(CORE_T)
 
@@ -113,6 +114,8 @@ $(CORE_T): $(CORE_O) $(AUX_O) $(LIB_O)
 $(LUA_T): $(LUA_O) $(CORE_T)
 	$(CC) -o $@ $(MYLDFLAGS) $(LUA_O) $(CORE_T) $(LIBS) $(MYLIBS) $(DL)
 
+$(LUA_DLL): $(BASE_O)
+	$(CC) -g -Wall --shared -o $@ $^
 
 clean:
 	$(RM) $(ALL_T) $(ALL_O)
